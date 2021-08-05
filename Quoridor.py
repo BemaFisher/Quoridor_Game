@@ -28,11 +28,11 @@ class Player:
         return self._location
 
     def set_location(self, location):
-        """ Sets player's location. CHANGE IT EVERY TIME PLAYER MOVES"""
+        """ Sets player's location to given location. CHANGE IT EVERY TIME PLAYER MOVES"""
         self._location = location
 
     def count_fences(self, num_of_fences_used):
-        """ Decrease the number of fences everytime player uses one"""
+        """ Decrease the number of fences everytime player uses one by subtracting number of fences used. """
         self._num_of_fences -= num_of_fences_used
 
 
@@ -139,12 +139,12 @@ class QuoridorGame:
         pass
 
     def opponent_player(self, current_player):
-        """ Determine opponent player. If P1 is current player then P2 is opponent and vice versa"""
+        """ Determine opponent player. If P1 is current player then return P2 as opponent and vice versa"""
         pass
 
 
-game_1 = QuoridorGame()
-game_1.print_board()
+# game_1 = QuoridorGame()
+# game_1.print_board()
 
 # #### "DETAILED TEXT DESCRIPTIONS OF HOW TO HANDLE THE SCENARIOS"
 
