@@ -3,10 +3,14 @@
 # Description:
 
 class Player:
-    """Represents player. Class will store player's num, number of fences available, and location."""
+    """Represents player. Class will store player's num(1 or 2), number of fences available(starts with 10), and
+    location. It will have getters for all the data members. It has a method for keeping track of fences available for
+    player.
+    It also will have inheritance relationship with Quoridor class (Quoridor has-a player) since we need to keep track
+    of players."""
 
     def __init__(self, player_num):
-        """Initializes private data member's"""
+        """Initializes private data members"""
         self._player_num = player_num
         self._num_of_fences = 10
         self._location = None  # not sure about this
@@ -23,8 +27,9 @@ class Player:
         """:returns location of the player."""
         return self._location
 
-    def set_location(self):
+    def set_location(self, location):
         """ Sets player's location. CHANGE IT EVERY TIME PLAYER MOVES"""
+        self._location = location
 
     def count_fences(self, num_of_fences_used):
         """ Decrease the number of fences everytime player uses one"""
@@ -32,62 +37,85 @@ class Player:
 
 
 class QuoridorGame:
-    """ class representing a game"""
+    """ Class representing the game. In this class,
+    - I will be storing and representing the board.
+     - print the board with method
+     - determine validity of the move whether it is pawn or the fence with is_valid_move method
+     - record the move within move_pawn and play_fence methods
+     - determine any edge cases and return False when I find one
+     - determine the winner with is_winner method
+     - keep track of whose turn it is with player turn method"""
 
     def __init__(self):
         """Initializes private variables"""
         self._game_status = "UNFINISHED"
         self._current_player = 'P1'  # since P1 takes the first turn
-        self._board = [['|', ' 0', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 1', ' ', '  ', ' ', '  ', ' ', '  ', ' ', '  ', ' ', '  ', ' ', '  ', ' ', '  ', ' ',
-                        '  ', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 2', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 3', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 4', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 5', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 6', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 7', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P1', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|'],
-                       ['+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+', '  ', '+',
-                        '  ', '+'],
-                       ['|', ' 8', ' ', ' 1', ' ', ' 2', ' ', ' 3', ' ', 'P2', ' ', ' 5', ' ', ' 6', ' ', ' 7', ' ',
-                        ' 8', '|']]
+        self._board = [['00', '10', '20', '30', 'P1', '50', '60', '70', '80'],
+                       ['01', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['02', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['03', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['04', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['05', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['06', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['07', '--', '--', '--', '--', '--', '--', '--', '--'],
+                       ['08', '--', '--', '--', 'P2', '--', '--', '--', '--'],
+                       ]
 
-    #  ['+', '==', '+', '==', '+', '==', '+', '==', '+', '==', '+', '==', '+', '==', '+', '==', '+',
-    #                         '==', '+']
+    def get_current_player(self):
+        """:returns current player"""
+        return self._current_player
+
+    def set_current_player(self, opponent_player):
+        """ Sets current payer player. Set it to the opponent player everytime current player
+        has made a successful move. """
+        self._current_player = opponent_player
+
+    def get_game_status(self):
+        """:returns status of the game"""
+        return self._game_status
+
+    def set_game_status(self, status):
+        """ Sets status of the game. CHANGE TO 'WIN' IF MOVE CAUSED WIN"""
+        self._game_status = status
+
     def print_board(self):
         """Prints board"""
-        print('+ == + == + == + == + == + == + == + == + == +')
+        print('0x', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x')
+        print("--------------------------")
         for row in self._board:
             for slot in row:
                 print(slot, end=" ")
             print()
-        print('+ == + == + == + == + == + == + == + == + == +')
+        print("--------------------------")
+
+    def is_valid_move_pawn(self, coord):
+        """ Takes the coordinates that pawns wants to move as a parameter and checks if it's within the bounds.
+        Returns true if move is legal and False otherwise."""
+        pass
+
+    def is_valid_move_fence(self, direction, coord):
+        """ Takes the direction and coordinates of where the fence needs to be placed and checks if the move is within
+        the bounds. Returns true if move is legal and False otherwise."""
+        pass
+
+    def lookup_player_from_num(self, player_num):
+        """ Take player's number and return Player object"""
+        pass
+
+    def players_baseline(self, player_num):
+        """ returns each player's baseline"""
+        pass
+
+    def fence_placement(self, direction, coord):
+        """ Records every fence's placement on the board which will help to determine if fence placement is valid
+        (because we can't place fences on top of each other) and
+        if fence is obstructing pawn's move."""
+        pass
 
     def move_pawn(self, player, coord):
         """
         if the move is forbidden by the rule or blocked by the fence, return False
-        if the move was successful or if the move makes the player win, return True
+        if the move was successful or if the move makes the player win, record it and return True
         if the game has been already won, return False
         """
         pass
@@ -108,43 +136,48 @@ class QuoridorGame:
         Returns True if that player has won and False if that player has not won.
         Check that by checking if player is on opponents base line
         """
+        pass
 
-    def player_turn(self, current_player):
-        """ Switch turns. If current player is P1 then switch turn to P2 and vice versa"""
+    def opponent_player(self, current_player):
+        """ Determine opponent player. If P1 is current player then P2 is opponent and vice versa"""
+        pass
 
 
 game_1 = QuoridorGame()
 game_1.print_board()
 
-# board = [
-#     ['|', (0, 0), 'X ', 'X ', 'X ', 'P1 ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', (0, 1), 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', "(0, 2)", 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     ['|', 'X ', 'X ', 'X ', 'X ', 'P2 ', 'X ', 'X ', 'X ', 'X ', '|'],
-#     [' ', '--', '--', '--', '--', '--', '--', '--', '--', '--']]
+# #### "DETAILED TEXT DESCRIPTIONS OF HOW TO HANDLE THE SCENARIOS"
+
+# -----Determining how to store the board.-----
+# I will be storing my board in list of lists which I initialized in the init method of the QuoridorGame class.
+# In that board, I will keep track pawns and where they are moving and validating pawn's moves. In separate method,
+# I will be tracking where all the fences are placed, inside that method I will also see if the move is valid.
+
+# -----Initializing the board.-----
+# I initialized my board in the init method of QuoridorGame class and print it in print_board method in QuoridorGame
+# class.
+
+# -----Determining how to track which player's turn it is to play right now.-----
+# I have current_player data member in the QuoridorGame class and also have set_current_player method.
+# At first, player is initialized to P1 but then everytime a player makes a successful move I will update current player
+# through set_current_player method.
+
+# -----Determining how to validate a moving of the pawn.-----
+# After checking for things like player's turn, game status I will check if the pawn is within bounds with is
+# valid_move_pawn method. I will also check if the destination coord is empty within move_pawn methods. If all is clear,
+# record the move in move_pawn.
+
+# -----Determining how to validate placing of the fences.-----
+# Similarly to validating pawn's move, I will check for same edge cases but I have separate method called
+# is_valid_move_fence for checking move validity since fence coordinates are bit different.
+
+# -----Determining how to keep track of fences on the board and off the board.-----
+# Each player will have count of their fences within Player class and count_fence methods that will be updated everytime
+# player uses a fence. All fences placed on the board will be stored in a list in a fence_placement method
+# inside QuoridorGame  class.
 #
-# val = "(0, 2)"
-#
-# for row in board:
-#     for item in row:
-#         if item == val:
-#             print("it works")
 
-
-
-
-
-
-##### "DETAILED TEXT DESCRIPTIONS OF HOW TO HANDLE THE SCENARIOS"
-# Determining how to store the board.
-# Initializing the board
-# Determining how to track which player's turn it is to play right now.
-# Determining how to validate a moving of the pawn.
-# Determining how to validate placing of the fences.
-# Determining how to keep track of fences on the board and off the board.
-# Determining how to keep track of the pawn's position on the board.
+# -----Determining how to keep track of the pawn's position on the board.-----
+# As I said above, pawn's position on the board will be tracked in the board initialized in QuoridorGame class
+# and moves will be record in move_pawn method. I also have location data member in Player class where we can check
+# player's current location.
