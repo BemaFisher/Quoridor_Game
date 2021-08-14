@@ -147,18 +147,20 @@ class QuoridorGame:
         current_location = player.get_location()
 
         # opponent pawn on top
-        if self._board[current_location[1]][current_location[0] - 1] == player.player_name(self.opponent_player()):
-            if (coord != (current_location[0], current_location[1] + 1)) and (
-                    coord != (current_location[0], current_location[1] - 2)) and (
-                    coord != (current_location[0] + 1, current_location[1])) and (
-                    coord != (current_location[0] - 1, current_location[1])):
-                return False
-        elif self._board[current_location[1]][current_location[0] + 1] == player.player_name(self.opponent_player()):
-            if (coord != (current_location[0], current_location[1] + 1)) and (
-                    coord != (current_location[0], current_location[1] - 2)) and (
-                    coord != (current_location[0] + 1, current_location[1])) and (
-                    coord != (current_location[0] - 1, current_location[1])):
-                return False
+        if 0 <= (current_location[1] - 1) < 9:
+            if self._board[current_location[0]][current_location[1] - 1] == player.player_name(self.opponent_player()):
+                if (coord != (current_location[0], current_location[1] + 1)) and (
+                        coord != (current_location[0], current_location[1] - 2)) and (
+                        coord != (current_location[0] + 1, current_location[1])) and (
+                        coord != (current_location[0] - 1, current_location[1])):
+                    return False
+        if 0 <= (current_location[1] + 1) < 9:
+            if self._board[current_location[0]][current_location[1] + 1] == player.player_name(self.opponent_player()):
+                if (coord != (current_location[0], current_location[1] + 1)) and (
+                        coord != (current_location[0], current_location[1] + 2)) and (
+                        coord != (current_location[0] + 1, current_location[1])) and (
+                        coord != (current_location[0] - 1, current_location[1])):
+                    return False
         else:
             if (coord != (current_location[0], current_location[1] + 1)) and (
                     coord != (current_location[0], current_location[1] - 1)) and (
@@ -314,16 +316,19 @@ class QuoridorGame:
 
 
 # game_1 = QuoridorGame()
-# player_1 = Player(1)
-# player_2 = Player(2)
 # game_1.print_board()
-# game_1.add_player(player_1)
-# game_1.add_player(player_2)
 # print(game_1.move_pawn(1, (4, 1)))
-# print(game_1.place_fence(2, 'v', (5, 1)))
 # print(game_1.move_pawn(2, (4, 7)))
-# print(game_1.move_pawn(1, (5, 1)))
 # print(game_1.move_pawn(1, (4, 2)))
+# print(game_1.move_pawn(2, (4, 6)))
+# print(game_1.move_pawn(1, (4, 3)))
+# print(game_1.move_pawn(2, (4, 5)))
+# print(game_1.move_pawn(1, (4, 4)))
+# print(game_1.move_pawn(2, (4, 3)))
+# print(game_1.place_fence(1, 'h', (0, 1)))
+# print(game_1.move_pawn(1, (4, 2)))
+# print(game_1.move_pawn(1, (5, 1)))
+# print(game_1.move_pawn(2, (4, 5)))
 
 # print(game_1.move_pawn(2, (4, 7)))
 # print(game_1.get_game_status())
