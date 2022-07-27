@@ -1,14 +1,14 @@
 # portfolio-project
 
-Write a class named `QuoridorGame` for playing a board game called Quoridor. 
+A board game called Quoridor. 
 
-Details about the game, validation rules, implementation, game play and extra credit are below.
+Details about the game, validation rules, implementation, game play are below.
 
 ## Game
 
-You can see the rules of the game in this [video](https://www.youtube.com/watch?v=6ISruhN0Hc0) and [Page 9 of this educative-sheet_quoridor-english.pdf](https://en.gigamic.com/files/media/fiche_pedagogique/educative-sheet_quoridor-english.pdf) You can implement the fair play rule for extra credit but you are not required to.
+You can see the rules of the game in this [video](https://www.youtube.com/watch?v=6ISruhN0Hc0) and [Page 9 of this educative-sheet_quoridor-english.pdf](https://en.gigamic.com/files/media/fiche_pedagogique/educative-sheet_quoridor-english.pdf) 
 
-You will be writing a program for a two-player version of the game.  Each player will have 10 fences.
+This a program for a two-player version of the game.  Each player will have 10 fences.
 
 The board is formed by 9x9 cells, and the pawn will move on the cells.  The fence will be placed on the edges of the cells.  The four sides of the board are treated as fences and no more fence should be placed on top of it.
 
@@ -23,8 +23,6 @@ The four edges are labeled as fences. The row of the cells where the pawns are p
 When each player tries to place a fence on the board, the position of the fence is defined by a letter and coordinates.  For vertical fences, we use `v` and for horizontal fences, we use `h`.  As an example, for the blue fence (vertical) in the picture, we use the coordinate of the top corner to define it and for the red fence (horizontal), we use coordinate of the left corner to define it. 
 
 ## Validation rules
-
-Consult the video and the PDF file's page 9, linked at the top of this README, to understand the game play rules and make sure that your program implements them.
 
 For example, jumping over the pawn is allowed only when the two pawns face each other. Diagonal movement is allowed when blocked by pawn + fence. A fence only blocks 1 square. Fences cannot be moved once placed thus they cannot be reused. The baseline cannot be blocked off with the fences. All the rules from the video and the PDF apply unless the README or an Instructor explicitly says otherwise.
 
@@ -52,13 +50,10 @@ Your `QuoridorGame` class must include the following methods:
 
 * `is_winner` method that takes a single integer representing the player number as a parameter and returns `True` if that player has won and `False` if that player has not won.
 
-* You might also find implementing a `print_board` method useful to print the board to the screen. It's not required that you implement this method.
-
-Feel free to add whatever other classes, methods, or data members you want. All data members must be private. All methods must have no more than 20-25 lines of code - don't try to get around this by making really long or complicated lines of code. (The rule in real life is just to not stuff too much into a single function, but that's probably too nebulous a rule for you at this point, and if your function is over 25 lines, you probably are trying to stuff too much into it.)
 
 ## How your game will be played?
 
-Here's a very simple example of how your QuoridorGame class will be used and is expected to behave, by the autograder or a TA:
+Here's a very simple example of how QuoridorGame class will be used and is expected to behave:
 
 ```
 q = QuoridorGame()
@@ -72,18 +67,3 @@ q.is_winner(1) #returns False because Player 1 has not won
 q.is_winner(2) #returns False because Player 2 has not won
 
 ```
-
-## Extra Credit: Fair-play rule
-The fair play rule says that it is forbidden to lock up an opponent’s pawn, using fences. An access to the goal line must always be left open. Your program is not required to do this check when the fence is placed by the player.  If you implement the fair-play rule succesfully, you will receive extra credit as shown in the Rubric.
-
-To implement this rule, your `place_fence` method should return `breaks the fair play rule` when `place_fence` is called with parameters that would violate the fair play rule.
-
-Tip: You could paint the neighboring cells of the pawn if it is not blocked by the fence, and then the neighboring of the cells that is painted, and finally check whether at least one of the cells in the target base line is painted.  Recursion could be used for implementing this fair play rule.
-
-## Notes
-
-The program file must be named **Quoridor.py**.
-
-You cannot use any library, unless it's approved by an Instructor. To get approval, make a post on Ed stating the name of the library and the reason or scenario you want to use it for. Once approved, anyone in the class can use that library.
-
-Though the Portfolio Project is the only project in this course that you can make public, you should not do so until after you have received the Final Letter grade for this course. 
