@@ -18,25 +18,31 @@ class Player:
 
     def get_player_id(self):
         """:returns player num"""
+        
         return self._player_id
 
     def get_player_name(self):
+        
         return self._player_name
 
     def get_num_of_fences(self):
         """:returns number of fences player has"""
+        
         return self._num_of_fences
 
     def get_location(self):
         """:returns location of the player."""
+        
         return self._location
 
     def set_location(self, location):
         """ Sets player's location to given location. CHANGE IT EVERY TIME PLAYER MOVES"""
+        
         self._location = location
 
     def player_name(self, player_num):
         """ Returns Player's name (P1 or P2)"""
+        
         if player_num == 1:
             return 'P1'
         else:
@@ -44,6 +50,7 @@ class Player:
 
     def subtract_fence(self, num_of_fences_used):
         """ Decrease the number of fences everytime player uses one by subtracting number of fences used. """
+        
         self._num_of_fences -= num_of_fences_used
 
 
@@ -59,6 +66,7 @@ class QuoridorGame:
 
     def __init__(self):
         """Initializes private variables"""
+        
         self._game_status = "UNFINISHED"
         self._current_player = 1  # since P1 takes the first turn
         self._list_of_players = [Player(1), Player(2)]
@@ -76,27 +84,34 @@ class QuoridorGame:
 
     def get_current_player(self):
         """:returns current player"""
+        
         return self._current_player
 
     def set_current_player(self, opponent_player):
         """ Sets current payer player. Set it to the opponent player everytime current player
         has made a successful move. """
+        
         self._current_player = opponent_player
 
     def get_game_status(self):
         """:returns status of the game"""
+        
         return self._game_status
 
     def set_game_status(self, status):
         """ Sets status of the game. CHANGE TO 'WIN' IF MOVE CAUSED WIN"""
+        
         self._game_status = status
 
     def get_fence_on_board(self):
         """:returns dictionary of fences placed on board"""
+        
         return self._fence_on_board
 
     def print_board(self):
+        
         """Prints board"""
+
         print('0x', '1x', '2x', '3x', '4x', '5x', '6x', '7x', '8x')
         print("--------------------------")
         for row in self._board:
@@ -107,6 +122,7 @@ class QuoridorGame:
 
     def lookup_player_from_num(self, player_num):
         """ Take player's number and return Player object"""
+
         for player in self._list_of_players:
             if player_num == player.get_player_id():
                 return player
@@ -115,6 +131,7 @@ class QuoridorGame:
 
     def opponents_baseline(self, player_num):
         """ returns each player's baseline"""
+
         if player_num == 1:
             return [(0, 8), (1, 8), (2, 8), (3, 8), (4, 8), (5, 8), (6, 8), (7, 8), (8, 8)]
         if player_num == 2:
@@ -124,15 +141,18 @@ class QuoridorGame:
         """ Sets up an initial location of players
         Takes the coordinates that pawns wants to move as a parameter and checks if it's within the bounds.
         checks if destination coord is taken by another player"""
+
         if coord[0] < 0 or coord[1] < 0:  # border check
             return False
         if coord[0] >= 9 or coord[1] >= 9:
             return False
-
-        if self._board[coord[1]][coord[0]] == player.player_name(self.opponent_player()):  # if block is taken by another player
+        
+        # if block is taken by another player
+        if self._board[coord[1]][coord[0]] == player.player_name(self.opponent_player()):  
             return False
 
-        if player.get_location() is None:   # set initial locations
+        # set initial locations
+        if player.get_location() is None:   
             if player.get_player_id() == 1:
                 player.set_location((4, 0))
             elif player.get_player_id() == 2:
@@ -144,6 +164,7 @@ class QuoridorGame:
         """ Takes the coordinates that pawns wants to move as a parameter and checks if it's within the bounds.
         Also checks if there is another pawn. Allows only move
         Returns true if move is legal and False otherwise."""
+        
         current_location = player.get_location()
 
         # opponent pawn on top
@@ -209,11 +230,12 @@ class QuoridorGame:
         if the move was successful or if the move makes the player win, record it and return True
         if the game has been already won, return False
         """
+        
         print("Current player is: ", self._current_player)
 
         if self._game_status == 'WON':
             return False
-        if player_num != self._current_player:  # make sure it's player's turn
+        if player_num != self._current_player: 
             return False
 
         player = self.lookup_player_from_num(player_num)
@@ -226,8 +248,9 @@ class QuoridorGame:
             self.print_board()
             self._current_player = self.opponent_player()
             return True
-
-        if self.is_winner(player_num) is True:  # have to check if game ends if player got to the baseline
+        
+        # have to check if game ends if player got to the baseline
+        if self.is_winner(player_num) is True:  
             return True
         else:
             return False
@@ -270,11 +293,12 @@ class QuoridorGame:
         the fair play rule.
         If the game has been already won, return False
         """
+        
         print("Current player is: ", self._current_player)
-        # game has been won
+        
         if self._game_status == 'WON':
             return False
-        if player_num != self._current_player:  # make sure it's player's turn
+        if player_num != self._current_player:  
             return False
 
         player = self.lookup_player_from_num(player_num)
@@ -309,36 +333,10 @@ class QuoridorGame:
 
     def opponent_player(self):
         """ Determine opponent player. If P1 is current player then return P2 as opponent and vice versa"""
+        
         if self._current_player == 1:
             return 2
         else:
             return 1
-
-
-# game_1 = QuoridorGame()
-# game_1.print_board()
-# print(game_1.move_pawn(1, (4, 1)))
-# print(game_1.move_pawn(2, (4, 7)))
-# print(game_1.move_pawn(1, (4, 2)))
-# print(game_1.move_pawn(2, (4, 6)))
-# print(game_1.move_pawn(1, (4, 3)))
-# print(game_1.move_pawn(2, (4, 5)))
-# print(game_1.move_pawn(1, (4, 4)))
-# print(game_1.move_pawn(2, (4, 3)))
-# print(game_1.place_fence(1, 'h', (0, 1)))
-# print(game_1.move_pawn(1, (4, 2)))
-# print(game_1.move_pawn(1, (5, 1)))
-# print(game_1.move_pawn(2, (4, 5)))
-
-# print(game_1.move_pawn(2, (4, 7)))
-# print(game_1.get_game_status())
-
-# print(game_1.place_fence(1, 'h', (6, 5)))
-# print(game_1.place_fence(2, 'v', (6, 5)))
-# print(game_1.place_fence(1, 'v', (5, 5)))
-# print(game_1.place_fence(2, 'h', (6, 5)))
-# print(game_1.place_fence(1, 'v', (0, 5)))
-# print(game_1.place_fence(2, 'v', (6, 0)))
-# print(game_1.get_fence_on_board())
 
 
